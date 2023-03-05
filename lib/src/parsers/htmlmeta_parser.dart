@@ -25,7 +25,15 @@ class HtmlMetaParser with BaseMetadataParser {
   /// Get the [Metadata.image] from the first <img> tag in the body;s
   @override
   String? get image =>
-      _document?.body?.querySelector('img')?.attributes.get('src');
+      _document?.body?.querySelector('img')?.attributes.get('src') ??
+      _document?.head
+          ?.querySelector('link[rel="apple-touch-icon"]')
+          ?.attributes
+          .get('href') ??
+      _document?.head
+          ?.querySelector('link[rel*="icon"]')
+          ?.attributes
+          .get('href');
 
   @override
   String toString() => parse().toString();
